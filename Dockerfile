@@ -1,13 +1,14 @@
-FROM python:2.7.13-alpine
+FROM python:3-alpine
 
 
 RUN apk add --no-cache \
 		ca-certificates
 
 ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 17.06.1-ce
+ENV DOCKER_VERSION 19.03.13
 
 RUN set -ex; \
+        mkdir -p /etc/docker-service-replicas-exporter ; \
 	apk add --no-cache --virtual .fetch-deps \
 		curl \
 		tar \
@@ -39,8 +40,12 @@ RUN set -ex; \
 
 COPY app /opt/docker-service-replicas-exporter
 
+COPY example/config.yml /etc/docker-service-replicas-exporter
+
 RUN pip install -r /opt/docker-service-replicas-exporter/requirements.txt
 
 EXPOSE 9258
 
 ENTRYPOINT ["python", "/opt/docker-service-replicas-exporter/exporter.py"]
+
+CMD ["/etc/docker-service-replicas-exporter/config.yml"]

@@ -32,6 +32,7 @@ ALERT service_replication_failure
 
 ### Config
 
+Default config included in container:
 ```yml
 exporter_port: 9258 # Port on which Prometheus can call this exporter to get metrics
 log_level: info
@@ -51,6 +52,13 @@ python app/exporter.py example/config.yml
 
 > This must be run on a docker swarm master node
 
+With default config:
 ```
-docker run -p 9258:9258 -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd)/example/config.yml:/etc/docker-service-replicas-exporter/config.yml sunbird/docker-service-replicas-exporter /etc/docker-service-replicas-exporter/config.yml
+docker run -p 9258:9258 -v /var/run/docker.sock:/var/run/docker.sock suukit/docker-service-replicas-exporter 
+```
+
+
+With custom config:
+```
+docker run -p 9258:9258 -v /var/run/docker.sock:/var/run/docker.sock -v /path/to/config.yml:/etc/docker-service-replicas-exporter/config.yml suukit/docker-service-replicas-exporter
 ```
