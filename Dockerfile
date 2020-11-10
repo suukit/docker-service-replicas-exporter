@@ -30,12 +30,12 @@ RUN set -ex; \
 		--file docker.tgz \
 		--strip-components 1 \
 		--directory /usr/local/bin/ \
+                docker/docker \
 	; \
 	rm docker.tgz; \
 	\
 	apk del .fetch-deps; \
 	\
-	dockerd -v; \
 	docker -v
 
 COPY app /opt/docker-service-replicas-exporter

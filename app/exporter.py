@@ -17,7 +17,7 @@ class DockerServiceReplicasCollector(object):
     self._config = config
 
   def collect(self):
-    service_replicas_lines = subprocess.check_output(['docker', 'service', 'ls', '--format', '"{{.Name}} {{.Replicas}}"']).strip().split('\n')
+    service_replicas_lines = subprocess.check_output(['docker', 'service', 'ls', '--format', '"{{.Name}} {{.Replicas}}"']).decode('UTF-8').strip().split('\n')
     cleaned_service_replicas_lines = [service_replicas_line for service_replicas_line in service_replicas_lines if service_replicas_line is not None and service_replicas_line != '']
     service_replicas_running_gauge = GaugeMetricFamily('docker_service_replicas_running', 'Number of replicas running for a service', labels=['service_name'])
     service_replicas_expected_gauge = GaugeMetricFamily('docker_service_replicas_expected', 'Number of replicas expected for a service', labels=['service_name'])
